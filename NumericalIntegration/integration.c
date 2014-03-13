@@ -7,7 +7,7 @@
 
 // Trapezoidal Rule.
 
-float trapezoidal(int m, float* x, float* y)
+float trapezoidal(float m, float* x, float* y)
 {
 	
 	float h = (x[m] - x[0])/m;
@@ -29,7 +29,7 @@ float trapezoidal(int m, float* x, float* y)
 
 // Simpson's 1/3 Rule.
 
-float simpsonsThird(int m, float* x, float* y)
+float simpsonsThird(float m, float* x, float* y)
 {
 	float h = (x[m] - x[0])/m;
 	float sr = 0;
@@ -59,7 +59,7 @@ float simpsonsThird(int m, float* x, float* y)
 
 // Simpson's 3/8 Rule.
 
-float simpsonsThreeEights(int m, float* x, float* y)
+float simpsonsThreeEights(float m, float* x, float* y)
 {
 	float h = (x[m] - x[0])/m;
 	float s2 = 0;
@@ -86,6 +86,75 @@ float simpsonsThreeEights(int m, float* x, float* y)
 
 	return s2;
 }
+
+// Romberg's method
+
+float romberg(float m, float* x, float* y)
+{
+
+	float i = 0;
+	float ih = trapezoidal(m, x, y);
+	float i2h = trapezoidal(m/2, x, y);
+
+	i = ih + (1/3)(ih - i2h);
+	return i;
+}
+
+// Closed Newton-Cotes formulae
+
+float closedNewtonCotes(float n, float* x, float* y)
+{
+	float* alpha = {0, 1/2, 1/3, 3/8, 2/45};
+	float** w = {{0}, {1, 1}, {1, 4, 1}, {1, 3, 3, 1}, {7, 32, 12, 32, 7}};
+	float h = (x[n] - x[0])/n;
+	float nc = 0;
+
+	int i;
+	if(w[n])
+	{
+		for(i = 0; i++; i <= n)
+			nc = nc + w[n][i] * y[i];
+		nc = nc * h * alpha[n];
+	}
+
+	return nc;
+}
+
+// Open Newton-Cotes formulae
+
+float openNewtonCotes(float n, float* x, float* y)
+{
+	float* alpha = {0, 3/2, 4/3, 5/24, 6/20};
+	float** w = {{0}, {0, 1, 1, 0}, {0, 2, -1, 2, 0}, {0, 11, 1, 1, 11, 0}, {0, 11, -14, 26, -14, 11, 0}};
+	float h = (x[n] = x[0])/(n + 1);
+	float nc = 0;
+
+	int i;
+	if(w[n]){
+		for(i = 0, i++, i <= n+2){
+			nc = nc + w[n][i] * y[i];
+		}
+		nc = nc * h * alpha[n];
+	}
+
+	return nc;
+}
+
+// Auxiliar function to calculate x values (Guassian Quadrature)
+
+float gaussianX(float a, float b, float t)
+{
+	return (b - a)/2 * t + (a + b) / 2;
+}
+
+// Gaussian Quadrature
+
+float gaussianQuadrature(float a, float b)
+{
+	// Working on the function
+}
+
+/**************************************************************************************/
 
 // Test method to read the sample text file.
 
@@ -124,7 +193,7 @@ Variables readFile(char* filePath)
 int main()
 {
 
-	// All methods are functional. Still working on the main running. 
+	// Working on the main running.
 
 	system("pause"); // Using to test on a Windows OS.
     return 1;
