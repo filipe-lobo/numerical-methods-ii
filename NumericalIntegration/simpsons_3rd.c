@@ -5,7 +5,7 @@ float simpsonsThird(int m, float* x, float* y) {
 	if (m % 2 != 0) {
 		return;
 	}
-	float h = (x[m] - x[0]) / m;
+	float h = (x[m] - x[0]) / (float) m;
 
 	int i;
 	for (i = 0; i <= m; i++) {
@@ -18,7 +18,7 @@ float simpsonsThird(int m, float* x, float* y) {
 				it = it + 4 * y[i];
 		}
 	}
-	it = it * h / 3;
+	it = it * h / (float) 3;
 
 	return it;
 }

@@ -2,38 +2,17 @@
 
 float trapezoidal(int m, float* x, float* y) {
 	float it = 0;
-	float h = (x[m] - x[0]) / m;
+	float h = (x[m] - x[0]) / (float) m;
 
 	it = it + y[0];
 	int i;
 	for (i = 1; i <= m - 1; i++) {
 		it = it + 2 * y[i];
 	}
-	it = (it + y[m]) * h / 2;
+	it = (it + y[m]) * h / (float) 2;
 	return it;
 }
-/*
- float simpsonsThreeEights(int m, float* x, float* y) {
- float it = 0;
- if (m % 3 != 0)
- return;
- float h = (x[m] - x[0]) / m;
 
- int i;
- for (i = 0; i <= m; i++) {
- if (i == 0 || i == m)
- it = it + y[i];
- else {
- if (i % 3 == 0)
- it = it + 2 * y[i];
- else
- it = it + 3 * y[i];
- }
- }
- it = it * h * (3 / 8);
- return it;
- }
- */
 Variables readFile(char* filePath) {
 	FILE* file = fopen(filePath, "r");
 	float i = 0;

@@ -6,15 +6,16 @@
 #include <conio.h>
 #include <math.h>
 
-struct variablesSnd {
-	float n;
-	float fn;
+struct variables {
+	int n;
+	int fn;
 	float a;
 	float b;
 };
-typedef struct variablesSnd VariablesSnd;
+typedef struct variables Variables;
 
 float f(int fn, float x);
-float openNewtonCotes(float n, int fn, float a, float b);
+float openNewtonCotes(int n, int fn, float a, float b);
+Variables readFile(char* filePath);
 
 #endif

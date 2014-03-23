@@ -6,7 +6,17 @@
 #include <conio.h>
 #include <math.h>
 
-float rombergTrap(float h, float fn, float a, float b);
-float rombergInt(float h, float fn, float a, float b);
+struct variables {
+	float h;
+	int fn;
+	float a;
+	float b;
+};
+typedef struct variables Variables;
+
+float f(int fn, float x);
+float rombergTrap(float h, int fn, float a, float b);
+float rombergInt(float h, int fn, float a, float b);
+Variables readFile(char* filePath);
 
 #endif

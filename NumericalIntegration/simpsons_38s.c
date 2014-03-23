@@ -2,9 +2,10 @@
 
 float simpsonsThreeEights(int m, float* x, float* y) {
 	float it = 0;
-	if (m % 3 != 0)
+	if (m % 3 != 0) {
 		return;
-	float h = (x[m] - x[0]) / m;
+	}
+	float h = (x[m] - x[0]) / (float) m;
 
 	int i;
 	for (i = 0; i <= m; i++) {
@@ -17,19 +18,20 @@ float simpsonsThreeEights(int m, float* x, float* y) {
 				it = it + 3 * y[i];
 		}
 	}
-	it = it * h * (3 / 8);
+	it = it * h * 3 / (float) 8;
 	return it;
 }
 
 Variables readFile(char* filePath) {
 	FILE* file = fopen(filePath, "r");
+	int m = 0;
 	float i = 0;
 	float j = 0;
 	int counter = 0;
 	Variables v;
 
-	fscanf(file, "%f", &i);
-	v.m = i;
+	fscanf(file, "%d", &m);
+	v.m = m;
 
 	float auxX[v.m];
 	float auxY[v.m];
