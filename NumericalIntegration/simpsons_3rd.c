@@ -3,6 +3,7 @@
 float simpsonsThird(int m, float* x, float* y) {
 	float it = 0;
 	if (m % 2 != 0) {
+		printf("Warning: Number of divisions (m) must be even.\n");
 		return;
 	}
 	float h = (x[m] - x[0]) / (float) m;
@@ -52,5 +53,11 @@ Variables readFile(char* filePath) {
 }
 
 int main(int argc, char* argv[]) {
+	if (argc != 2)
+		printf("Usage: %s filename ", argv[0]);
+	else {
+		Variables v = readFile(argv[1]);
+		printf("Result: %f", simpsonsThird(v.m, v.x, v.y));
+	}
 	return 1;
 }

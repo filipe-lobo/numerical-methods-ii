@@ -19,6 +19,7 @@ float f(int fn, float x) {
 		fx = 4 / (float) (1 + pow(x, 2));
 		break;
 	default:
+		printf("Warning: Function index must be on the [1, 5] index.\n");
 		return;
 		break;
 	}
@@ -57,6 +58,7 @@ float quadrature(int n, int fn, float a, float b) {
 		it += 0.236926885056189 * f(fn, x(a, b, 0.906179845938664));
 		break;
 	default:
+		printf("Warning: Number of points must be on the [2, 5] interval.\n");
 		return;
 		break;
 	}
@@ -86,5 +88,11 @@ Variables readFile(char* filePath) {
 }
 
 int main(int argc, char* argv[]) {
+	if (argc != 2)
+		printf("Usage: %s filename ", argv[0]);
+	else {
+		Variables v = readFile(argv[1]);
+		printf("Result: %f", quadrature(v.n, v.fn, v.a, v.b));
+	}
 	return 1;
 }

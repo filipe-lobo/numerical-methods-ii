@@ -42,5 +42,11 @@ Variables readFile(char* filePath) {
 }
 
 int main(int argc, char* argv[]) {
+	if (argc != 2)
+		printf("Usage: %s filename ", argv[0]);
+	else {
+		Variables v = readFile(argv[1]);
+		printf("Result: %f", trapezoidal(v.m, v.x, v.y));
+	}
 	return 1;
 }
