@@ -19,7 +19,7 @@ float f(int fn, float x) {
 		fx = 4 / (float) (1 + pow(x, 2));
 		break;
 	default:
-		printf("Warning: Function index must be on the [1, 5] index.\n");
+		printf("Warning: Function index must be on the [1, 5] interval.\n");
 		return;
 		break;
 	}
