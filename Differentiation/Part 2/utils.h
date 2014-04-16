@@ -36,5 +36,23 @@ double f(int function_number, double x) {
 	return fx;
 }
 
+Variables readFile(char* filePath) {
+	FILE* file = fopen(filePath, "r");
+	int i = 0;
+	double j = 0;
+	Variables v;
+
+	fscanf(file, "%d", &i);
+	v.function_number = i;
+	fscanf(file, "%lf", &j);
+	v.h = j;
+	fscanf(file, "%lf", &j);
+	v.x = j;
+
+	fclose(file);
+
+	return v;
+}
+
 #endif
 

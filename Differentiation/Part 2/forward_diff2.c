@@ -13,5 +13,12 @@ double forward2(int function_number, double h, double x) {
 }
 
 int main(int argc, char *argv[]) {
+	if (argc != 2)
+		printf("Usage: %s filename ", argv[0]);
+	else {
+		Variables v = readFile(argv[1]);
+		printf("Forward difference: %lf",
+				forward2(v.function_number, v.h, v.x));
+	}
 	return 1;
 }
