@@ -1,6 +1,6 @@
 #include "odes.h"
 
-void forwardEuler(Variables variables) {
+Result forwardEuler(Variables variables) {
 	int n = ((variables.b - variables.a) / variables.h) + 1;
 	Result r;
 
@@ -23,9 +23,10 @@ void forwardEuler(Variables variables) {
 	printResultTable(r);
 	printf("\n");
 
+	return r;
 }
 
-void rungeKutta2(Variables variables) {
+Result rungeKutta2(Variables variables) {
 	double k1, k2;
 	int n = ((variables.b - variables.a) / variables.h) + 1;
 	Result r;
@@ -52,9 +53,11 @@ void rungeKutta2(Variables variables) {
 	printf("Runge-Kutta (Second Order):\n");
 	printResultTable(r);
 	printf("\n");
+
+	return r;
 }
 
-void rungeKutta3(Variables variables) {
+Result rungeKutta3(Variables variables) {
 	double k1, k2, k3;
 	int n = ((variables.b - variables.a) / variables.h) + 1;
 	Result r;
@@ -84,9 +87,11 @@ void rungeKutta3(Variables variables) {
 	printf("Runge-Kutta (Third Order):\n");
 	printResultTable(r);
 	printf("\n");
+
+	return r;
 }
 
-void rungeKutta4(Variables variables) {
+Result rungeKutta4(Variables variables) {
 	double k1, k2, k3, k4;
 	int n = ((variables.b - variables.a) / variables.h) + 1;
 	Result r;
@@ -122,9 +127,11 @@ void rungeKutta4(Variables variables) {
 	printf("Runge-Kutta (Fourth Order):\n");
 	printResultTable(r);
 	printf("\n");
+
+	return r;
 }
 
-void predictorCorrector3(Variables variables) {
+Result predictorCorrector3(Variables variables) {
 	double k1, k2, k3, k4;
 	int n = ((variables.b - variables.a) / variables.h) + 1;
 	Vector p;
@@ -192,9 +199,11 @@ void predictorCorrector3(Variables variables) {
 	printf("Predictor-Corrector Method (Third Order):\n");
 	printResultTable(r);
 	printf("\n");
+
+	return r;
 }
 
-void predictorCorrector4(Variables variables) {
+Result predictorCorrector4(Variables variables) {
 	double k1, k2, k3, k4;
 	int n = ((variables.b - variables.a) / variables.h) + 1;
 	Vector p;
@@ -270,6 +279,72 @@ void predictorCorrector4(Variables variables) {
 	printf("Predictor-Corrector Method (Fourth Order):\n");
 	printResultTable(r);
 	printf("\n");
+
+	return r;
+}
+
+void makeScript(Variables variables) {
+	FILE *file;
+	file = fopen("output.m", "w");
+	Result r;
+
+	fprintf(file, "figure;\na = ezplot(\"%s\", [%lf,%lf])\n",
+			scriptFunction(variables.functionIndex), variables.a, variables.b);
+	fprintf(file,
+			"set(a,\"linewidth\",2)\nset(a,\"color\",\"k\")\ngrid on\nhold on\n");
+
+	r = forwardEuler(variables);
+	fprintf(file, "teuler = ");
+	writeVectorToFile(file, r.t);
+	fprintf(file, "yeuler = ");
+	writeVectorToFile(file, r.v);
+	fprintf(file,
+			"euler = plot(teuler, yeuler, \"r-\")\nset(euler, \"linewidth\", 2)\nhold on\n");
+
+	r = rungeKutta2(variables);
+	fprintf(file, "trk2 = ");
+	writeVectorToFile(file, r.t);
+	fprintf(file, "yrk2 = ");
+	writeVectorToFile(file, r.v);
+	fprintf(file,
+			"rk2 = plot(trk2, yrk2, \"g-\")\nset(rk2, \"linewidth\", 2)\nhold on\n");
+
+	r = rungeKutta3(variables);
+	fprintf(file, "trk3 = ");
+	writeVectorToFile(file, r.t);
+	fprintf(file, "yrk3 = ");
+	writeVectorToFile(file, r.v);
+	fprintf(file,
+			"rk3 = plot(trk3, yrk3, \"b-\")\nset(rk3, \"linewidth\", 2)\nhold on\n");
+
+	r = rungeKutta4(variables);
+	fprintf(file, "trk4 = ");
+	writeVectorToFile(file, r.t);
+	fprintf(file, "yrk4 = ");
+	writeVectorToFile(file, r.v);
+	fprintf(file,
+			"rk4 = plot(trk4, yrk4, \"m-\")\nset(rk4, \"linewidth\", 2)\nhold on\n");
+
+	r = predictorCorrector3(variables);
+	fprintf(file, "tpc3 = ");
+	writeVectorToFile(file, r.t);
+	fprintf(file, "ypc3 = ");
+	writeVectorToFile(file, r.v);
+	fprintf(file,
+			"pc3 = plot(tpc3, ypc3, \"c-\")\nset(pc3, \"linewidth\", 2)\nhold on\n");
+
+	r = predictorCorrector4(variables);
+	fprintf(file, "tpc4 = ");
+	writeVectorToFile(file, r.t);
+	fprintf(file, "ypc4 = ");
+	writeVectorToFile(file, r.v);
+	fprintf(file,
+			"pc4 = plot(tpc4, ypc4, \"k--\")\nset(pc4, \"linewidth\", 2)\nhold on\n");
+
+	fprintf(file,
+			"legend('Analytical Solution','Forward Euler', 'Range-Kutta 2', 'Range-Kutta 3', 'Range-Kutta 4', 'Predictor-Corrector 3', 'Predictor-Corrector 4')");
+
+	fclose(file);
 }
 
 int main(int argc, char *argv[]) {
@@ -277,12 +352,7 @@ int main(int argc, char *argv[]) {
 		printf("Usage: %s filename ", argv[0]);
 	else {
 		Variables v = readFile(argv[1]);
-		forwardEuler(v);
-		rungeKutta2(v);
-		rungeKutta3(v);
-		rungeKutta4(v);
-		predictorCorrector3(v);
-		predictorCorrector4(v);
+		makeScript(v);
 	}
 
 	return 1;

@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <math.h>
+#include <string.h>
 
 struct variables {
 	double v0;
@@ -85,6 +86,37 @@ Variables readFile(char* filePath) {
 	fclose(file);
 
 	return v;
+}
+
+char* scriptFunction(int index) {
+	switch (index) {
+	case 1:
+		return "e^(0.25*x^4-1.5*x)";
+		break;
+	case 2:
+		return "(1.0/4.0)*(2.0*t^2+t+2.0)^2";
+		break;
+	case 3:
+		return "(1.0/4.0)*(2.0*t^2-2.0*t+3.0*e^(-2*t)+1.0)";
+		break;
+	default:
+		printf("Insert a valid function index.\n");
+		break;
+	}
+
+	return "";
+}
+
+void writeVectorToFile(FILE *file, Vector v) {
+	fprintf(file, "[");
+	int i;
+
+	for (i = 0; i < v.length; i++) {
+		if (i != v.length - 1)
+			fprintf(file, "%lf, ", v.vector[i]);
+		else
+			fprintf(file, "%lf]\n", v.vector[i]);
+	}
 }
 
 #endif

@@ -3,11 +3,13 @@
 
 #include "utils.h"
 
-void forwardEuler(Variables variables);
-void rungeKutta2(Variables variables);
-void rungeKutta3(Variables variables);
-void rungeKutta4(Variables variables);
-void predictorCorrector3(Variables variables);
-void predictorCorrector4(Variables variables);
+Result forwardEuler(Variables variables);
+Result rungeKutta2(Variables variables);
+Result rungeKutta3(Variables variables);
+Result rungeKutta4(Variables variables);
+Result predictorCorrector3(Variables variables);
+Result predictorCorrector4(Variables variables);
+
+void makeScript(Variables variables);
 
 #endif
